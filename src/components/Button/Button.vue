@@ -7,7 +7,7 @@
   import ElIcon from '../Icon/Icon.vue'
   // 定义组件名称
   defineOptions({
-    name: 'TinyButton'
+    name: 'ElButton'
   })
   // 1. 接收props - 接受父组件传递的属性值
   const props = defineProps(buttonProps)

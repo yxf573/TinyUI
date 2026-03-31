@@ -66,7 +66,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { SelectProps, SelectEmits, SelectOptions, SelectStates, RenderLabelFunc } from './types'
+import type { SelectProps, SelectEmits, SelectOptions, SelectStates, SelectValue } from './types'
 import ElInput from '../Input/Input.vue'
 import ElTooltip from '../Tooltip/Tooltip.vue'
 import type { TooltipInstance } from '../Tooltip/types'
@@ -87,7 +87,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
 const emits = defineEmits<SelectEmits>()
 const timeout = computed((() => props.remote ? 300 : 0))
 // 查找对应的option
-const findOption = (value: string) => {
+const findOption = (value: SelectValue | '') => {
   const option = props.options.find(option => option.value === value)
   return option ? option : null
 }

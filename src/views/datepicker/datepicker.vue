@@ -5,18 +5,13 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref } from 'vue'
 import DatePicker from '@/components/DatePicker/DatePicker.vue'
-export default {
-  name: 'DatePickerView',
-  data() {
-    return {
-      selectedDate: ""
-    }
-  },
-  // 其他配置和逻辑
-  components: {
-    DatePicker
-  }
-};
+
+defineOptions({
+  name: 'DatePickerView'
+})
+
+const selectedDate = ref('')
 </script>

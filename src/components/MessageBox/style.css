@@ -12,6 +12,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 9999;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.1) !important;
@@ -52,7 +53,8 @@
       bottom: 0;
       padding: 5px 15px 15px;
       .el-button {
-        width: 76px;
+        min-width: 76px;
+        width: auto;
         margin-right: 10px;
       }
     }
