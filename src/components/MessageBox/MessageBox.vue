@@ -32,7 +32,10 @@
             <el-button 
               @click="handleAction('confirm')"
             >{{  confirmBtnText }}</el-button>
-            <!-- 取消按钮 -->
+            <!-- 
+              取消按钮
+              v-if="showCancelBtn" 控制取消按钮的显示与隐藏，props传递而来 
+            -->
             <el-button 
               type="danger" 
               v-if="showCancelBtn" 
@@ -46,54 +49,55 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import ElIcon from '../Icon/Icon.vue';
-import ElButton from '../Button/Button.vue';
-import type { MessageBoxOptions, ActionType } from './types';
+  import { reactive } from 'vue';
+  import ElIcon from '../Icon/Icon.vue';
+  import ElButton from '../Button/Button.vue';
+  import type { MessageBoxOptions, ActionType } from './types';
 
-const state = reactive({
-  visible: false,  // 控制弹窗显示与隐藏
-  type: '' // 记录用户操作类型
-});
-// 设置弹窗显示或隐藏
-const setVisible = (isVisible: boolean) => {
-  state.visible = isVisible;
-};
+  const state = reactive({
+    visible: false,  // 控制弹窗显示与隐藏
+    type: '' // 记录用户操作类型
+  });
 
-defineOptions({
-  name: 'ElMessageBox'
-});
+  // 1. 设置弹窗显示或隐藏
+  const setVisible = (isVisible: boolean) => {
+    state.visible = isVisible;
+  };
 
-// 从外部传递的 props
-const props = defineProps<MessageBoxOptions>();
+  defineOptions({
+    name: 'ElMessageBox'
+  });
 
-// 点击遮罩层：关闭 Messagebox 框
-const handleClickModal = () => {
-  // 如果允许点击遮罩层，关闭 Messagebox 框
-  if (props.closeOnClickModal) {
-    // 调用 handleAction() 方法，并传递 'close'
-    handleAction('close');
-  }
-};
+  // 从外部传递的 props
+  const props = defineProps<MessageBoxOptions>();
 
-// 关闭 Messagebox 框
-const closeModal = () => {
-  // 如果弹窗已经关闭，则直接返回
-  if (!state.visible) return;
-  // 设置 visible 为 false，隐藏
-  setVisible(false);
-};
+  // 点击遮罩层：关闭 Messagebox 框
+  const handleClickModal = () => {
+    // 如果允许点击遮罩层，关闭 Messagebox 框
+    if (props.closeOnClickModal) {
+      // 调用 handleAction() 方法，并传递 'close'
+      handleAction('close');
+    }
+  };
 
-// 处理按钮点击事件
-const handleAction = (type: ActionType) => {
-  // 记录用户操作类型
-  state.type = type;
-  // 关闭弹框
-  closeModal();
-};
+  // 2. 关闭 Messagebox 框
+  const closeModal = () => {
+    // 如果弹窗已经关闭，则直接返回
+    if (!state.visible) return;
+    // 设置 visible 为 false，隐藏
+    setVisible(false);
+  };
 
-defineExpose({
-  setVisible,
-  state
-});
+  // 3. 处理按钮点击事件
+  const handleAction = (type: ActionType) => {
+    // 记录用户操作类型
+    state.type = type;
+    // 关闭弹框
+    closeModal();
+  };
+
+  defineExpose({
+    setVisible,
+    state
+  });
 </script>

@@ -1,9 +1,9 @@
 // 引入 Popper.js 核心库的类型定义
 import type { Placement, Options } from '@popperjs/core'
 
-// 定义 Tooltip 组件的属性接口
+// 定义 Tooltip 组件的属性接口 —— 针对对象
 export interface TooltipProps {
-  content? : string; // 提示内容
+  content?: string; // 提示内容
   trigger?: 'hover' | 'click'; // 触发方式：鼠标悬停或点击
   placement?: Placement; // 提示框位置
   manual?: boolean; // 是否手动控制显示
@@ -16,9 +16,9 @@ export interface TooltipProps {
 // 定义 Tooltip 组件的事件触发器
 export interface TooltipEmits {
   // 提示框可见性变化事件
-  (e: 'visible-change', value: boolean) : void;
+  (e: 'visible-change', value: boolean): void;
   // 点击外部关闭事件
-  (e: 'click-outside', value: boolean) : void;
+  (e: 'click-outside', value: boolean): void;
 }
 
 // 定义 Tooltip 实例接口

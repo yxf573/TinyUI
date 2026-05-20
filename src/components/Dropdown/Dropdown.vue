@@ -40,36 +40,43 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { DropdownProps, DropdownInstance, DropdownEmits, MenuOption } from './types'
-import Tooltip from '../Tooltip/Tooltip.vue'
-import RenderVnode from '../Common/RenderVnode'
-import type { TooltipInstance } from '../Tooltip/types'
-defineOptions({
-  name: 'ElDropdown'
-})
-const props = withDefaults(defineProps<DropdownProps>(), { hideAfterClick: true })
-const emits = defineEmits<DropdownEmits>()
-const tooltipRef = ref<TooltipInstance | null>(null)
-const visibleChange = (e: boolean) => {
-  emits('visible-change', e)
-}
-// 点击 菜单项
-const itemClick = (e: MenuOption) => {
-  // 处理禁用状态下的菜单项
-  if (e.disabled) {
-    return
+  import { ref } from 'vue'
+  import type { DropdownProps, DropdownInstance, DropdownEmits, MenuOption } from './types'
+  import Tooltip from '../Tooltip/Tooltip.vue'
+  import RenderVnode from '../Common/RenderVnode'
+  import type { TooltipInstance } from '../Tooltip/types'
+
+  defineOptions({
+    name: 'ElDropdown'
+  })
+
+  const props = withDefaults(defineProps<DropdownProps>(), { hideAfterClick: true })
+  const emits = defineEmits<DropdownEmits>()
+  
+  // 获取tooltip
+  const tooltipRef = ref<TooltipInstance | null>(null)
+  
+  // 传递触发事件 
+  const visibleChange = (e: boolean) => {
+    emits('visible-change', e)
   }
-  // emit select事件
-  emits('select', e)
-  // 点击之后是否隐藏
-  if (props.hideAfterClick) {
-    tooltipRef.value?.hide()
+  
+  // 点击 菜单项
+  const itemClick = (e: MenuOption) => {
+    // 处理禁用状态下的菜单项
+    if (e.disabled) {
+      return
+    }
+    // emit select事件
+    emits('select', e)
+    // 点击之后是否隐藏
+    if (props.hideAfterClick) {
+      tooltipRef.value?.hide()
+    }
   }
-}
-defineExpose<DropdownInstance>({
-  show: () => tooltipRef.value?.show(),
-  hide: () => tooltipRef.value?.hide()
-})
+  defineExpose<DropdownInstance>({
+    show: () => tooltipRef.value?.show(),
+    hide: () => tooltipRef.value?.hide()
+  })
 </script>
 

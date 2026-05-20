@@ -4,11 +4,12 @@
       <template #prefix>
       </template>
     </el-input>
+    <el-input label="学号："></el-input>
     <el-input showClear></el-input>
     <el-input disabled></el-input>
     <el-input size="large"></el-input>
     <el-input size="small"></el-input>
-    <el-input showPassword></el-input>
+    <el-input type="password" label="密码：" showPassword></el-input>
     <el-input>
       <template #suffix>
         <el-icon icon="calendar"></el-icon>
@@ -19,7 +20,7 @@
         <el-icon icon="magnifying-glass"></el-icon>
       </template>
     </el-input>
-    <el-input>
+    <el-input @blur="handleBlur">
       <template #prepend>
         Http://
       </template>

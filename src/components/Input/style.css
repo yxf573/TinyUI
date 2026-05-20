@@ -2,11 +2,13 @@
   margin-bottom: 10px;
   display: flex;
 }
+
 .el-input-label {
   margin-right: 8px;
   font-weight: bold;
   color: #333;
 }
+
 .el-input-container {
   flex: 1;
   display: flex;
@@ -14,6 +16,7 @@
   position: relative;
   /* width: 220px; */
 }
+
 .el-input-prepend,
 .el-input-append {
   background-color: #f5f7fa;
@@ -27,14 +30,17 @@
   height: 34px;
   margin-top: 4px;
 }
+
 .el-input-prepend {
   border: 1px solid var(--el-border-color);
   margin-right: -3px;
 }
+
 .el-input-append {
   border: 1px solid var(--el-border-color);
   margin-left: -3px;
 }
+
 .el-input-content {
   margin: 4px 2px;
   flex: 1;
@@ -46,40 +52,48 @@
   transition: border-color 0.3s;
   color: #606266;
 }
-.el-input--default .el-input-content  {
+
+.el-input--default .el-input-content {
   height: 34px;
   padding: 12px;
   padding-left: 18px;
 }
-.el-input--large .el-input-content  {
+
+.el-input--large .el-input-content {
   height: 44px;
   padding: 20px;
 }
-.el-input--small .el-input-content  {
+
+.el-input--small .el-input-content {
   height: 28px;
   padding: 12px;
 }
-.el-input-content:disabled{
+
+.el-input-content:disabled {
   background-color: #f0f0f0;
   opacity: .7;
   cursor: not-allowed;
 }
+
 .el-input-content:focus {
   border-color: #007bff;
 }
+
 .el-input-clear,
 .el-input-eye,
 .el-input-suffix,
-.el-input-prefix
-{
+.el-input-prefix {
   position: absolute;
   top: 50%;
   right: 10px;
   transform: translateY(-50%);
+  /* 要保证图标能够显示 */
+  z-index: 1;
   cursor: pointer;
   color: #ccc;
   font-size: 14px;
 }
+
 .el-input-prefix {
   left: 6px;
 }

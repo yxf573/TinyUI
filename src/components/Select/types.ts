@@ -12,6 +12,7 @@ export type RenderLabelFunc = (option: SelectOptions) => VNode
 export type CustomFilterFunc = (value: string) => SelectOptions[]
 export type CustomFilterRemoteFunc = (value: string) => Promise<SelectOptions[]>
 
+// props
 export interface SelectProps {
   modelValue: SelectValue | ''
   options?: SelectOptions[]

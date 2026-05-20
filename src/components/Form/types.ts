@@ -1,23 +1,49 @@
 import type { PropType, InjectionKey, ExtractPropTypes } from 'vue'
-import type { Rules, RuleItem, ValidateError, ValidateFieldsError } from 'async-validator'
+import type { RuleItem, ValidateError, ValidateFieldsError } from 'async-validator'
 
-// 表单项规则类型
+export type Arrayable<T> = T | T[]
+export type FormItemProp = string
+export type FormLabelPosition = 'left' | 'right' | 'top'
+
+// FormItemRule 在 async-validator 规则上补充 trigger，
+// 让输入类组件可以按 blur / change / input 等时机触发局部校验。
 export interface FormItemRule extends RuleItem {
-  trigger?: string;
+  trigger?: Arrayable<string>
 }
-// 表单规则类型
-export type FormRules = Partial<Record<string, FormItemRule[]>>
 
-// 表单组件的 props
+export type FormRules = Partial<Record<FormItemProp, Arrayable<FormItemRule>>>
+export type FormValidationResult = Promise<boolean>
+
 export const formProps = {
   model: {
     type: Object as PropType<Record<string, any>>
   },
   rules: {
     type: Object as PropType<FormRules>
+  },
+  labelWidth: {
+    type: [String, Number] as PropType<string | number>
+  },
+  labelPosition: {
+    type: String as PropType<FormLabelPosition>,
+    default: 'right'
+  },
+  inline: {
+    type: Boolean
+  },
+  showMessage: {
+    type: Boolean,
+    default: true
+  },
+  scrollToError: {
+    type: Boolean
+  },
+  scrollIntoViewOptions: {
+    type: [Boolean, Object] as PropType<boolean | ScrollIntoViewOptions>,
+    default: () => ({ block: 'center', behavior: 'smooth' })
   }
 }
-// 表单项组件的 props
+
 export const formItemProps = {
   label: {
     type: String
@@ -25,44 +51,50 @@ export const formItemProps = {
   prop: {
     type: String
   },
+  rules: {
+    type: [Object, Array] as PropType<Arrayable<FormItemRule>>
+  },
+  required: {
+    type: Boolean
+  },
+  labelWidth: {
+    type: [String, Number] as PropType<string | number>
+  },
   showMessage: {
     type: Boolean,
-    default: true
+    default: undefined
   }
 }
 
-// 表单项组件的 props 类型
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>
-// 表单组件的 props 类型
 export type FormProps = ExtractPropTypes<typeof formProps>
 
-// 表单上下文接口
+// Form 是调度中心，FormItem 是字段节点；上下文把两者解耦。
 export interface FormContext extends FormProps {
-  addField: (field: FormItemContext) => void;
-  removeField: (field: FormItemContext) => void;
-  resetFields: (props?: string[]) => void;
-  clearValidate: (props?: string[]) => void;
-  validate: (props?: string[]) => void;
+  addField: (field: FormItemContext) => void
+  removeField: (field: FormItemContext) => void
+  resetFields: (props?: Arrayable<FormItemProp>) => void
+  clearValidate: (props?: Arrayable<FormItemProp>) => void
+  validate: (props?: Arrayable<FormItemProp>) => FormValidationResult
+  validateField: (props?: Arrayable<FormItemProp>) => FormValidationResult
+  scrollToField: (prop: FormItemProp) => void
 }
-// 表单项上下文接口
+
 export interface FormItemContext {
-  $el: HTMLDivElement | undefined;
-  resetField(): void;
-  clearValidate(): void;
-  prop: string;
-  validate: (
-    trigger: string,
-  ) => any
+  $el?: HTMLDivElement
+  prop: FormItemProp
+  resetField: () => void
+  clearValidate: () => void
+  validate: (trigger?: string) => FormValidationResult
 }
-// 表单验证失败接口
+
 export interface FormValidateFailure {
   errors: ValidateError[] | null
   fields: ValidateFieldsError
 }
 
-// 表单上下文的注入键
 export const formContextKey: InjectionKey<FormContext> =
   Symbol('formContextKey')
-// 表单项上下文的注入键
+
 export const formItemContextKey: InjectionKey<FormItemContext> =
   Symbol('formItemContextKey')
